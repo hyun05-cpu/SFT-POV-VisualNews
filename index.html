@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>바다 속에 길을 띄우다 — SFT POV</title>
+<meta name="theme-color" content="#06131a">
+<style>
+:root{--lime:#e9ff78;--ink:#061117;--cyan:#9be8f2;--glass:rgba(2,14,20,.34)}
+*{box-sizing:border-box}html,body{margin:0;background:#041016;color:white;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}body{overflow-x:hidden}
+#story{height:980svh;position:relative}.stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#06131a}
+.progress{position:fixed;z-index:9999;left:0;top:0;height:3px;width:0;background:var(--lime)}
+.photo{position:absolute;inset:-3%;background-size:cover;background-position:center;will-change:opacity,transform,filter}
+.surface{z-index:1;opacity:1;background-image:linear-gradient(rgba(3,21,29,.02),rgba(3,21,29,.12)),url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Sun_over_sea.jpg')}
+.under{z-index:2;opacity:0;background-image:linear-gradient(rgba(0,33,46,.03),rgba(0,24,35,.24)),url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Underwater_surface_ripples.JPG');background-position:center 35%}
+.fishphoto{z-index:3;opacity:0;background-image:linear-gradient(rgba(1,25,34,.10),rgba(0,16,24,.38)),url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Hoplostethus_occidentalis_school.jpg');background-position:center}
+#gl{position:absolute;z-index:7;inset:0;width:100%;height:100%;display:block;opacity:0}
+.vignette{position:absolute;z-index:15;inset:0;pointer-events:none;background:radial-gradient(circle at center,transparent 38%,rgba(0,6,9,.07) 68%,rgba(0,5,8,.36) 100%)}
+.flash{position:absolute;z-index:11;inset:0;opacity:0;pointer-events:none;background:radial-gradient(ellipse at 50% 5%,rgba(255,255,255,.9),rgba(195,244,250,.27) 28%,transparent 58%)}
+#bubbles{position:absolute;z-index:12;inset:0;pointer-events:none;opacity:0;overflow:hidden}.b{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.58);background:rgba(255,255,255,.07);animation:rise linear infinite}@keyframes rise{from{transform:translateY(110vh)}to{transform:translateY(-25vh) translateX(35px)}}
+.brand{position:absolute;z-index:40;left:18px;top:18px;padding:8px 11px;border-radius:999px;background:var(--glass);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px);font:800 9px/1 ui-monospace,monospace;letter-spacing:.14em}.brand b{color:var(--lime)}
+.depth{position:absolute;z-index:40;right:18px;top:18px;text-align:right;font:800 9px/1.25 ui-monospace,monospace;letter-spacing:.12em;text-shadow:0 3px 16px #000}.depth strong{display:block;font:950 clamp(44px,6vw,84px)/.88 Arial,sans-serif;letter-spacing:-.07em;color:var(--lime)}
+.copy{position:absolute;z-index:45;left:5vw;bottom:8vh;max-width:760px;opacity:0;pointer-events:none;text-shadow:0 3px 22px rgba(0,0,0,.86);will-change:opacity,transform}.copy.hero{opacity:1}
+.kicker{font:800 10px/1 ui-monospace,monospace;letter-spacing:.18em;color:var(--lime)}.title{margin:13px 0 14px;font-size:clamp(50px,6.8vw,100px);line-height:.89;letter-spacing:-.073em;font-weight:950}.title em{font-style:normal;color:var(--lime)}.lead{max-width:680px;font-size:clamp(15px,1.35vw,19px);line-height:1.72;color:#dce8ea}.fact{margin-top:14px;font:800 11px/1.55 ui-monospace,monospace;letter-spacing:.05em}.fact b{color:var(--lime)}
+.hint{position:absolute;z-index:42;left:50%;bottom:18px;transform:translateX(-50%);font:800 9px/1 ui-monospace,monospace;letter-spacing:.13em;text-shadow:0 2px 12px #000}
+.engineering{position:absolute;z-index:46;right:5vw;bottom:8vh;width:min(360px,36vw);opacity:0;padding:15px 16px;background:rgba(3,15,21,.40);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px)}.engineering .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.12)}.engineering .row:last-child{border:0}.engineering small{font:800 9px/1 ui-monospace,monospace;letter-spacing:.1em;color:#a9bdc1}.engineering b{font-size:18px;color:var(--lime)}
+.exitCopy{position:absolute;z-index:46;left:50%;top:50%;transform:translate(-50%,-50%);width:min(950px,88vw);text-align:center;opacity:0;text-shadow:0 4px 28px #000}.exitCopy strong{display:block;font-size:clamp(58px,8vw,116px);line-height:.86;letter-spacing:-.075em}.exitCopy strong em{font-style:normal;color:var(--lime)}.exitCopy p{margin:22px auto 0;max-width:760px;font-size:18px;line-height:1.7;color:#dbe6e8}
+.end{min-height:100svh;display:flex;align-items:center;background:#eef3f1;color:#071920}.end .inner{width:min(1100px,88vw);margin:auto;text-align:center}.end h2{margin:0;font-size:clamp(52px,7.4vw,110px);line-height:.9;letter-spacing:-.075em}.end h2 em{font-style:normal;color:#0b7186}.end p{max-width:780px;margin:26px auto 0;font-size:18px;line-height:1.75;color:#536a70}.credits{padding:30px 6%;background:#02090d;color:#83979d;font-size:11px;line-height:1.7}
+@media(max-width:720px){.copy{left:5vw;right:5vw}.title{font-size:clamp(44px,12vw,72px)}.engineering{left:5vw;right:5vw;bottom:5vh;width:auto}.depth{right:12px}.brand{left:12px}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<section id="story">
+  <div class="stage">
+    <div class="photo surface" id="surface"></div>
+    <div class="photo under" id="under"></div>
+    <div class="photo fishphoto" id="fishphoto"></div>
+    <div class="flash" id="flash"></div>
+    <div id="bubbles"></div>
+    <canvas id="gl"></canvas>
+    <div class="vignette"></div>
+
+    <div class="brand"><b>SFT</b> · POV DIVE</div>
+    <div class="depth">CAMERA DEPTH<strong><span id="depthNum">0</span>m</strong>BELOW SEA LEVEL</div>
+
+    <div class="copy hero" data-start="0.00" data-end="0.09">
+      <div class="kicker">01 · SURFACE</div>
+      <div class="title">바다 위에서<br><em>직접 잠수합니다</em></div>
+      <div class="lead">스크롤을 내리면 카메라가 수면을 통과해 수심 약 25m 아래의 해중 부유식 터널을 향해 내려갑니다.</div>
+    </div>
+    <div class="copy" data-start="0.14" data-end="0.23">
+      <div class="kicker">02 · UNDER WATER</div>
+      <div class="title">고개를 들면<br><em>수면이 머리 위에</em></div>
+      <div class="lead">빛은 위에서 부서지고, 시야는 점점 푸른색으로 바뀝니다.</div>
+    </div>
+    <div class="copy" data-start="0.29" data-end="0.38">
+      <div class="kicker">03 · LIFE BELOW</div>
+      <div class="title">먼저 만나는 건<br><em>물고기 떼입니다</em></div>
+      <div class="lead">터널에 닿기 전, 실제 수중 사진과 움직이는 어군을 통과합니다.</div>
+    </div>
+    <div class="copy" data-start="0.43" data-end="0.54">
+      <div class="kicker">04 · SIGHTING</div>
+      <div class="title">그리고 멀리<br><em>터널이 나타납니다</em></div>
+      <div class="lead">해저를 뚫는 대신 바다 중간 깊이에 구조물을 띄우는 SFT 개념입니다.</div>
+      <div class="fact">기사에서 소개한 검토 수심대 <b>20~30m</b></div>
+    </div>
+    <div class="copy" data-start="0.57" data-end="0.66">
+      <div class="kicker">05 · APPROACH</div>
+      <div class="title">입구가<br><em>시야를 채웁니다</em></div>
+      <div class="lead">콘크리트 외벽, 보강 리브, 케이블을 지나 터널 안으로 들어갑니다.</div>
+    </div>
+    <div class="copy" data-start="0.70" data-end="0.78">
+      <div class="kicker">06 · DRIVE</div>
+      <div class="title">지금<br><em>바닷속 도로를 달립니다</em></div>
+      <div class="lead">내부는 일반 도로처럼 보이지만, 구조물 전체는 바닷물 속에 떠 있습니다.</div>
+    </div>
+
+    <div class="engineering" id="engineering">
+      <div class="row"><small>검토 수심</small><b>20~30m</b></div>
+      <div class="row"><small>핵심 원리</small><b>부력 ↑ / 장력 ↓</b></div>
+      <div class="row"><small>노르웨이 피오르드</small><b>1000m+</b></div>
+    </div>
+
+    <div class="exitCopy" id="exitCopy"><div class="kicker">07 · EXIT</div><strong>해저를 파지 않고<br><em>바다 속에 길을 띄운다</em></strong><p>카메라가 터널을 빠져나오면 케이블, 해저, 수면까지 전체 구조가 한 화면에 들어옵니다.</p></div>
+    <div class="hint" id="hint">SCROLL TO DIVE ↓</div>
+  </div>
+</section>
+<section class="end"><div class="inner"><h2>가능성은 기술에서 시작하지만<br><em>현실은 경제성·안전성에서 결정됩니다</em></h2><p>해중 부유식 터널은 개념과 요소기술이 검토되는 단계입니다. 실제 사업화에는 장기 안전성, 유지관리, 비용, 사회적 수용성 같은 조건이 함께 해결돼야 합니다.</p></div></section>
+<footer class="credits">자료: 아시아경제 「[사이언스 스코프] 바다를 뚫던 인류, 이제 바다 속에 '길'을 띄우다」. 수면·수중·어군 사진은 Wikimedia Commons 공개 자료를 데모용으로 사용합니다. SFT 구조는 기사 이해를 위한 3D 개념 시각화이며 실제 설계와 다를 수 있습니다.</footer>
+
+<script type="module">
+(async()=>{
+  for(let i=0;i<52;i++){const b=document.createElement('i');b.className='b';const s=3+Math.random()*12;b.style.width=b.style.height=s+'px';b.style.left=Math.random()*100+'%';b.style.animationDuration=(4+Math.random()*9)+'s';b.style.animationDelay=(-Math.random()*10)+'s';b.style.opacity=.15+Math.random()*.5;document.getElementById('bubbles').appendChild(b)}
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const smooth=(a,b,t)=>{t=clamp((t-a)/(b-a),0,1);return t*t*(3-2*t)};
+  const story=document.getElementById('story'),progress=document.getElementById('progress'),surface=document.getElementById('surface'),under=document.getElementById('under'),fishphoto=document.getElementById('fishphoto'),flash=document.getElementById('flash'),bubbles=document.getElementById('bubbles'),depthNum=document.getElementById('depthNum'),copies=[...document.querySelectorAll('.copy')],engineering=document.getElementById('engineering'),exitCopy=document.getElementById('exitCopy'),hint=document.getElementById('hint');
+  function P(){const r=story.getBoundingClientRect(),travel=story.offsetHeight-innerHeight;return travel?clamp(-r.top/travel,0,1):0}
+  function copyOpacity(p,s,e){const fi=.012,fo=.015;if(p<s||p>e)return 0;if(p<s+fi)return (p-s)/fi;if(p>e-fo)return (e-p)/fo;return 1}
+  let THREE;try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js/+esm')}catch(e){console.warn('3D unavailable',e);THREE=null}
+  let renderer,scene,camera,tunnel,interior,cables=[],particles,fish3d=[],clock;
+  if(THREE){
+    renderer=new THREE.WebGLRenderer({canvas:document.getElementById('gl'),antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setClearColor(0x000000,0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
+    scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x0b4050,.014);camera=new THREE.PerspectiveCamera(58,1,.1,600);clock=new THREE.Clock();scene.add(new THREE.HemisphereLight(0xdff6f7,0x0b2027,2.2));const key=new THREE.DirectionalLight(0xebfbff,2.3);key.position.set(-20,35,10);scene.add(key);
+    const tc=document.createElement('canvas');tc.width=tc.height=512;const tx=tc.getContext('2d');tx.fillStyle='#a1adae';tx.fillRect(0,0,512,512);for(let i=0;i<18000;i++){const g=112+Math.random()*68|0;tx.fillStyle=`rgba(${g},${g+2},${g+3},${.02+Math.random()*.05})`;tx.fillRect(Math.random()*512,Math.random()*512,1.2,1.2)}const concrete=new THREE.CanvasTexture(tc);concrete.wrapS=concrete.wrapT=THREE.RepeatWrapping;concrete.repeat.set(11,2);
+    tunnel=new THREE.Group();scene.add(tunnel);tunnel.position.set(0,-25,-65);tunnel.rotation.y=.12;const bodyMat=new THREE.MeshStandardMaterial({map:concrete,color:0xafbaba,roughness:.78,metalness:.04}),ribMat=new THREE.MeshStandardMaterial({color:0x718287,roughness:.55,metalness:.18}),steelMat=new THREE.MeshStandardMaterial({color:0x65767b,roughness:.4,metalness:.28}),darkMat=new THREE.MeshStandardMaterial({color:0x08151a,roughness:.95});
+    const tube=new THREE.Mesh(new THREE.CylinderGeometry(6.7,6.7,82,96),bodyMat);tube.rotation.z=Math.PI/2;tunnel.add(tube);for(let x=-36;x<=36;x+=8){const r=new THREE.Mesh(new THREE.TorusGeometry(6.76,.13,12,72),ribMat);r.rotation.y=Math.PI/2;r.position.x=x;tunnel.add(r)}[-41,41].forEach((x,i)=>{const outer=new THREE.Mesh(new THREE.TorusGeometry(6.2,.78,28,96),steelMat);outer.rotation.y=Math.PI/2;outer.position.x=x;tunnel.add(outer);const mouth=new THREE.Mesh(new THREE.CircleGeometry(4.72,96),darkMat);mouth.rotation.y=Math.PI/2;mouth.position.x=x+(i?.18:-.18);tunnel.add(mouth)});const roadMat=new THREE.MeshStandardMaterial({color:0x22292c,roughness:1});const road=new THREE.Mesh(new THREE.BoxGeometry(78,.3,7.5),roadMat);road.position.y=-2.95;tunnel.add(road);for(let x=-32;x<=32;x+=5.5){const d=new THREE.Mesh(new THREE.BoxGeometry(2.2,.05,.13),new THREE.MeshBasicMaterial({color:0xf0f4f1}));d.position.set(x,-2.76,0);tunnel.add(d)}
+    const cableMat=new THREE.LineBasicMaterial({color:0xc7db9d,transparent:true,opacity:.62});[-29,-10,10,29].forEach(x=>{const pts=[new THREE.Vector3(x,-20,-65),new THREE.Vector3(x*1.2,-55,-65+(x<0?-10:10))];const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),cableMat);scene.add(l);cables.push(l)});
+    const cnt=1500,arr=new Float32Array(cnt*3);for(let i=0;i<cnt;i++){arr[i*3]=(Math.random()-.5)*135;arr[i*3+1]=-4-Math.random()*49;arr[i*3+2]=-15-Math.random()*150}const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(arr,3));particles=new THREE.Points(pg,new THREE.PointsMaterial({color:0xd7f8fb,size:.075,transparent:true,opacity:.42,depthWrite:false}));scene.add(particles);
+    const fishMat=new THREE.MeshStandardMaterial({color:0x253f45,roughness:.9});for(let i=0;i<30;i++){const f=new THREE.Group();const body=new THREE.Mesh(new THREE.SphereGeometry(.38,12,8),fishMat);body.scale.set(1.8,.72,.5);f.add(body);const tail=new THREE.Mesh(new THREE.ConeGeometry(.31,.66,3),fishMat);tail.rotation.z=-Math.PI/2;tail.position.x=-.8;f.add(tail);f.position.set((Math.random()-.5)*95,-8-Math.random()*28,-28-Math.random()*95);f.scale.setScalar(.5+Math.random());scene.add(f);fish3d.push({f,s:.6+Math.random()*.9})}
+    interior=new THREE.Group();scene.add(interior);interior.visible=false;interior.position.set(0,-25,-155);const inner=new THREE.Mesh(new THREE.CylinderGeometry(8.4,8.4,190,96,1,true),new THREE.MeshStandardMaterial({map:concrete,color:0x4e5c60,roughness:.86,side:THREE.BackSide}));inner.rotation.z=Math.PI/2;interior.add(inner);const inRoad=new THREE.Mesh(new THREE.BoxGeometry(185,.32,10.5),roadMat);inRoad.position.y=-4.45;interior.add(inRoad);for(let x=-82;x<=82;x+=9){const lamp=new THREE.PointLight(0xecf8f4,1.35,13,2);lamp.position.set(x,5.95,0);interior.add(lamp)}
+  }
+  const target=THREE?new THREE.Vector3():null,quat=THREE?new THREE.Quaternion():null;function look(x,y,z){if(!THREE)return;target.set(x,y,z);const m=new THREE.Matrix4().lookAt(camera.position,target,camera.up);quat.setFromRotationMatrix(m);camera.quaternion.slerp(quat,.15)}
+  function resize(){if(renderer){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}}addEventListener('resize',resize);resize();let lastP=0;
+  function update(){const p=P();lastP=p;const total=document.documentElement.scrollHeight-innerHeight;progress.style.width=(total?scrollY/total*100:0)+'%';hint.style.opacity=String(1-smooth(.01,.07,p));const splash=smooth(.07,.15,p),underP=smooth(.12,.24,p),fishP=smooth(.24,.40,p),threeP=smooth(.38,.47,p);surface.style.opacity=String(1-smooth(.08,.17,p));surface.style.transform=`scale(${1+splash*.15}) translateY(${-splash*5}%)`;under.style.opacity=String(underP*(1-smooth(.25,.34,p)));under.style.transform=`scale(${1.08+underP*.12}) translateY(${4-underP*7}%)`;fishphoto.style.opacity=String(fishP*(1-smooth(.43,.52,p)));fishphoto.style.transform=`scale(${1.05+fishP*.07})`;flash.style.opacity=String(splash*(1-smooth(.12,.18,p))*.72);bubbles.style.opacity=String(smooth(.08,.12,p)*(1-smooth(.18,.27,p)));document.getElementById('gl').style.opacity=String(threeP);
+    const depth=smooth(.11,.44,p)*27;depthNum.textContent=Math.round(depth);
+    if(renderer){const approach=smooth(.42,.68,p),enter=smooth(.64,.76,p),drive=smooth(.73,.86,p),exit=smooth(.85,.98,p);if(p<.74){interior.visible=false;tunnel.visible=true;cables.forEach(l=>l.visible=true);particles.visible=true;fish3d.forEach(o=>o.f.visible=true);camera.position.set(Math.sin(p*5)*1.1,-20-smooth(.38,.54,p)*5,18-approach*55-enter*28);look(-41,-25,-65)}else if(p<.86){interior.visible=true;tunnel.visible=false;cables.forEach(l=>l.visible=false);particles.visible=false;fish3d.forEach(o=>o.f.visible=false);camera.position.set(-78+drive*132,-25,-155);camera.rotation.set(0,-Math.PI/2,0)}else{interior.visible=false;tunnel.visible=true;cables.forEach(l=>l.visible=true);particles.visible=true;fish3d.forEach(o=>o.f.visible=true);camera.position.set(22+exit*48,-21+exit*14,-48+exit*58);look(0,-25,-65)}scene.fog.density=.011+smooth(.40,.65,p)*.006;const now=clock.getElapsedTime();particles.rotation.y=now*.006;tunnel.position.y=-25+Math.sin(now*.4)*.06;fish3d.forEach((o,i)=>{o.f.position.x+=o.s*.015;if(o.f.position.x>65)o.f.position.x=-65;o.f.position.y+=Math.sin(now*.6+i)*.001});engineering.style.opacity=String(smooth(.50,.56,p)*(1-smooth(.66,.71,p)));exitCopy.style.opacity=String(smooth(.88,.93,p));}
+    copies.forEach(el=>{const o=copyOpacity(p,+el.dataset.start,+el.dataset.end);el.style.opacity=o;el.style.transform=`translateY(${(1-o)*6}px)`})}
+  function loop(){requestAnimationFrame(loop);update();if(renderer)renderer.render(scene,camera)}loop();
+})();
+</script>
+</body>
+</html>
